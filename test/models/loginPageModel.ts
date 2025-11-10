@@ -1,8 +1,8 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 require('dotenv');
 
 
-export class LoginPage {
+class LoginPage {
   readonly page: Page;
   readonly loginLink: Locator;
   readonly emailTextbox: Locator;
@@ -13,10 +13,10 @@ export class LoginPage {
   constructor(page: Page) {
     this.page = page;
     this.loginLink = page.getByRole('link', { name: 'Login' });
-    this.emailTextbox = page.getByRole('textbox').nth(0);
-    this.passwordTextbox = page.getByRole('textbox').nth(1)
-    this.loginButton = page.getByRole('button', { name: 'Login' })
-    this.logoutLink = page.getByRole('link', { name: 'Logout' })
+    this.emailTextbox = page.locator('[data-qa="login-email"]');
+    this.passwordTextbox = page.locator('[data-qa="login-password"]')
+    this.loginButton = page.locator('[data-qa="login-button"]')
+    this.logoutLink = page.getByRole('link', { name: 'Logout' });
   }
   async login() {
     await this.page.goto(process.env.TEST);
@@ -26,3 +26,5 @@ export class LoginPage {
     await this.loginButton.click();
   }
 }
+
+export = LoginPage;
